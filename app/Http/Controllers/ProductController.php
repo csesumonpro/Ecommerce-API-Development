@@ -87,7 +87,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+
+        // $product = Product::findOrFail($product->id);
+        // $product->name = $request->name;
+        // $product->detail = $request->description;
+        // $product->price = $request->price;
+        // $product->stock = $request->stock;
+        // $product->discount = $request->discount;
+        // $product->save();
+        $request['detail'] = $request->description;
+        unset($request->description);
+        $product->update($request->all());
+        return response([
+            'data' => new ProductResource($product)
+        ], Response::HTTP_CREATED);
     }
 
     /**
